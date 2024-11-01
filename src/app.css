@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* import static/fonts/Celescript.ttf */
+@layer base {
+	@font-face {
+		font-family: 'Celescript';
+		src: url('/fonts/Celescript.ttf') format('truetype');
+	}
+}
