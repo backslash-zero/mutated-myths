@@ -14,6 +14,8 @@
 	<main class="h-full w-full p-4 flex flex-col gap-4">
 		{#if $mythsStore.loading}
 			<Loading />
+		{:else if $mythsStore.error}
+			<p>{$mythsStore.error}</p>
 		{:else}
 			<slot />
 		{/if}

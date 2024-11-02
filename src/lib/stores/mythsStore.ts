@@ -99,6 +99,9 @@ async function createMythsData(owner: string, repo: string): Promise<Myth[]> {
 		creator: mythCreators[index]
 	}));
 
+	// reverse the order of commits
+	commits.reverse();
+
 	// Fetch data for each commit
 	for (const [index, commit] of commits.entries()) {
 		const mythContentsPromises = mythNumbers.map((mythNumber) =>

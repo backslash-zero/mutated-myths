@@ -4,20 +4,27 @@
 	import type { Myth } from '$types/myth';
 	import { get } from 'svelte/store';
 
-	const id: number = parseInt($page.params.id.replace('Myth', ''));
+	let id: number = 1;
 	let myth: Myth | null = null;
 	let currentMythVersion: number = 0;
 	let totalversions: number = 0;
 	let loading = true;
-
-	mythsStore.subscribe((myths) => {
+	page.subscribe((value) => {
+		if (!value.params.id?.includes('Myth')) return;
+		id = parseInt(value.params.id.replace('Myth', ''));
 		myth = $mythsStore.myths[id - 1];
 		// default to the latest version
-		currentMythVersion = $mythsStore.myths[id - 1].versions.length - 1;
-		console.log('myth', myth);
-		console.log('currentMythVersion', currentMythVersion);
-		console.log('myth.versions[currentMythVersion]', myth.versions[currentMythVersion]);
-		loading = get(mythsStore).loading;
+		currentMythVersion = myth?.versions?.length - 1;
+		loading = $mythsStore.loading;
+		totalversions = myth.versions.length;
+	});
+
+	mythsStore.subscribe(() => {
+		myth = $mythsStore.myths[id - 1];
+		// default to the latest version
+		currentMythVersion = myth?.versions?.length - 1;
+
+		loading = $mythsStore.loading;
 		totalversions = myth.versions.length;
 	});
 	const increaseIndex = () => {
@@ -56,12 +63,10 @@
 								>
 							</div>
 						</div>
-						<p>id: {id}</p>
-						<p>total versions: {currentMythVersion + 1} / {totalversions}</p>
-
-						<p>{myth.creator.name}</p>
-						<p>{myth.versions[currentMythVersion].sha}</p>
+						<p>id: {id} - {myth.creator.name}</p>
+						<p>version: {currentMythVersion + 1} / {totalversions}</p>
 						<p>{myth.versions[currentMythVersion].date}</p>
+						<p>{myth.versions[currentMythVersion].sha}</p>
 						<p>{myth.versions[currentMythVersion].message}</p>
 					</div>
 					<div class="font-mono flex flex-col gap-4">
