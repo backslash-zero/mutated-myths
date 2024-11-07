@@ -44,20 +44,21 @@
 {#if !loading && myth !== null}
 	<!-- content here -->
 	<div class="h-full w-full flex items-center justify-center">
-		<div class="h-full w-full flex flex-col p-8 max-w-screen-2xl">
-			<div class="flex gap-16">
-				<div class="flex-1 text-4xl leading-snug">
+		<div class="h-full w-full flex flex-col p-2 md:p-8 max-w-screen-2xl">
+			<div class="flex flex-col-reverse md:flex-row gap-16">
+				<div class="flex-1 text-2xl pb-8 md:text-4xl">
 					<p>{myth.versions[currentMythVersion].myth}</p>
 				</div>
-				<div class="w-1/4 text-md flex flex-col gap-8">
-					<div class="font-mono">
-						<div class="flex items-center">
+				<div class="w-full md:w-80 text-md flex flex-col gap-8">
+					<div class="font-mono text-sm">
+						<div class="flex items-center justify-between">
 							<h3 class="font-Celescript text-5xl">Infos</h3>
-							<div class="w-20 flex h-16 items-center font-Celescript text-2xl">
+							<div class="w-24 flex h-16 items-center font-Celescript text-4xl">
 								<button
 									class="flex-1 h-full flex items-center justify-center"
 									on:click={decreaseIndex}>-</button
 								>
+								<p></p>
 								<button
 									class="flex-1 h-fullflex items-center justify-center"
 									on:click={increaseIndex}>+</button
@@ -70,10 +71,10 @@
 						<p>{myth.versions[currentMythVersion].sha}</p>
 						<p>{myth.versions[currentMythVersion].message}</p>
 					</div>
-					<div class="font-mono flex flex-col gap-4">
+					<div class="w-full font-mono flex flex-col gap-4 text-sm">
 						<h3 class="font-Celescript text-5xl">Mythemes</h3>
 						{#each myth.versions[currentMythVersion].mythemes as mytheme}
-							<p>{mytheme}</p>
+							<p class="w-full">{mytheme}</p>
 						{/each}
 					</div>
 				</div>

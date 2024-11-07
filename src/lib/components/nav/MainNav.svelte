@@ -17,7 +17,7 @@
 	];
 </script>
 
-<nav class="w-full h-40 flex items-center bg-slate-300 font-Celescript text-3xl">
+<nav class="w-full h-20 md:h-40 flex items-center bg-slate-300 font-Celescript text-xl md:text-3xl">
 	{#each pages as item}
 		{#if item.path === $page.url.pathname}
 			<a

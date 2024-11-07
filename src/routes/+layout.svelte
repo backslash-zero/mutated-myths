@@ -9,9 +9,9 @@
 	import '../app.css';
 </script>
 
-<div class="relative flex flex-col w-[100dwh] h-[100dvh]">
+<div class="relative flex flex-col w-[100dwh] h-[100vh]">
 	<MainNav />
-	<main class="h-full w-full p-4 flex flex-col gap-4">
+	<main class="flex-1 w-full overflow-y-scroll flex flex-col gap-4">
 		{#if $mythsStore.loading}
 			<Loading />
 		{:else if $mythsStore.error}
@@ -20,5 +20,7 @@
 			<slot />
 		{/if}
 	</main>
-	<Footer />
+	<div class="w-full h-14">
+		<Footer />
+	</div>
 </div>

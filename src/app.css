@@ -9,3 +9,9 @@
 		src: url('/fonts/Celescript.ttf') format('truetype');
 	}
 }
+
+/* marigin 0  etc */
+html {
+	margin: 0;
+	padding: 0;
+}
