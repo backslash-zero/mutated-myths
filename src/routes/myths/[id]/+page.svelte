@@ -9,6 +9,7 @@
 	let currentMythVersion: number = 0;
 	let totalversions: number = 0;
 	let loading = true;
+
 	page.subscribe((value) => {
 		if (!value.params.id?.includes('Myth')) return;
 		id = parseInt(value.params.id.replace('Myth', ''));

@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import type { Myth, MythCreator } from '$types/myth';
 import { isError } from '../utils';
 
-const mythNumbers = [1, 2, 3, 4]; // List of myth numbers
+const mythNumbers = [1, 2, 3, 4]; // List of myth numbers\
 
 const mythCreators: Array<MythCreator> = [
 	{
@@ -21,6 +21,16 @@ const mythCreators: Array<MythCreator> = [
 		name: 'Pierre-Louis',
 		url: 'https://example.com/creator4'
 	}
+];
+
+type commits = {
+	old: string;
+	new: string;
+};
+
+const commitsToSkip: string[] = ['first commit', 'reset of the myths'];
+const commitsToEdit: commits[] = [
+	{ old: 'simplified the myths and added vs code workspace', new: 'Initial commit' }
 ];
 
 // Define the shape of the store
@@ -90,11 +100,33 @@ async function fetchMythemeContent(
 	return content.split('\n').filter((line) => line.trim() !== '');
 }
 
+// filter out the myths that have the same commit message
+// if a message is
+function filterMyths(myths: Myth[]): Myth[] {
+	return myths.map((myth) => {
+		let versions = myth.versions.filter(
+			(version, index, versions) =>
+				!commitsToSkip.includes(version.message) &&
+				versions.findIndex((v) => v.message === version.message) === index &&
+				!version.message.startsWith('adjust')
+		);
+		// edit the commit message
+		versions = versions.map((version) => {
+			const commit = commitsToEdit.find((c) => c.old === version.message);
+			if (commit) {
+				version.message = commit.new;
+			}
+			return version;
+		});
+		return { ...myth, versions };
+	});
+}
+
 async function createMythsData(owner: string, repo: string): Promise<Myth[]> {
 	const commits = await fetchAllCommits(owner, repo);
 
 	// Initialize an empty array to hold the myths
-	const myths: Myth[] = mythNumbers.map((_, index) => ({
+	let myths: Myth[] = mythNumbers.map((_, index) => ({
 		versions: [],
 		creator: mythCreators[index]
 	}));
@@ -127,6 +159,9 @@ async function createMythsData(owner: string, repo: string): Promise<Myth[]> {
 			});
 		});
 	}
+
+	myths = filterMyths(myths);
+	console.log(myths);
 
 	return myths;
 }
